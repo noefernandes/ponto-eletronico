@@ -1,0 +1,49 @@
+#main {
+    width: 100%;
+    height: calc(100% - 90px);
+}
+
+.group-panel {
+    margin-top: 30px;
+    width: 100%;
+    padding: 0 20px;
+    grid-column-start: 1;
+    grid-column-end: 3;
+}
+
+.button-panel {
+    height: 300px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin-top: 50px;
+}
+
+.info-panel {
+    text-align: center;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.log-panel {
+    width: 100%;
+    background-color: #262626;
+    padding: 0 0;
+    padding: 30px 20px;
+    margin-top: 50px;
+}
+
+@media screen and (min-width: 600px) {
+
+    #main {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .button-panel {
+        height: 400px;
+    }
+}
