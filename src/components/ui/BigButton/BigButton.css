@@ -1,0 +1,18 @@
+.big-button {
+    height: 100%;
+    width: 100%;
+    color: #262626;
+    font-size: 32px;
+    text-shadow: #262626 1px 1px 3px;
+    cursor: pointer;
+    border: none;
+    box-shadow: #262626 0px 5px 5px;
+    transition: all 300ms ease-in-out;
+    transform: translate(0px, -5px);
+}
+
+.big-button:active {
+    transform: translate(0px, 0px);
+    box-shadow: none;
+    border: #262626 1px solid;
+}

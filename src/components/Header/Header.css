@@ -1,0 +1,20 @@
+.header {
+    height: 90px;
+    width: 100%;
+    background-color: #262626;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0px 20px;
+}
+
+#title {
+    color: #FFFFFF;
+    font-size: 30px;
+    font-weight: bold;
+    text-shadow: #FFFFFF 1px 1px 1px;
+
+    @media screen and (max-width: 600px) {
+        font-size: 20px;
+    }
+}
