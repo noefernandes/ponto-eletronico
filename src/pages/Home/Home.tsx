@@ -3,21 +3,38 @@ import BigButton from "../../components/ui/BigButton/BigButton"
 import "./Home.css"
 import { TimeRecord } from "../../models/TimeRecord"
 import { useState } from "react"
+import { getFormattedCurrentTime } from "../../utils/Helpers"
+import { RecordType } from "../../constants/RecordType"
 
 const Home: React.FC = () => {
 
     const [timeRecords, setTimeRecords] = useState<TimeRecord[]>([]);
 
-    const addEnterCard = () => {
-        const currentTime = new Date();
-        const hours = currentTime.getHours().toString().padStart(2, '0');
-        const minutes = currentTime.getMinutes().toString().padStart(2, '0');
-        const seconds = currentTime.getSeconds().toString().padStart(2, '0');
-        
-        let date = `${hours}:${minutes}:${seconds}`;
-        const newTimeRecord: TimeRecord = { type: 'entrada', date: date };
+    const addCard = (type: string) => {
+        const date = getFormattedCurrentTime();
+        const newTimeRecord: TimeRecord = { type: type, date: date };
 
         setTimeRecords([...timeRecords, newTimeRecord]);
+    }
+
+    const addEnterCard = () => {
+        addCard(RecordType.Entrada);
+    }
+
+    const addPauseCard = () => {
+        addCard(RecordType.Pausa);
+    }
+
+    const addReturnCard = () => {
+        addCard(RecordType.Retorno);
+    }
+
+    const addExitCard = () => {
+        addCard(RecordType.Saida);
+    }
+
+    const hasEnterRecord = () => {
+        return timeRecords.some((timeRecord) => timeRecord.type === RecordType.Entrada);
     }
 
     const showTimeRecords = () => {
@@ -45,8 +62,8 @@ const Home: React.FC = () => {
                       backgroundColor={color} border="1px solid #262626"/>
             )
         }
-    )
-}
+    )}
+
 
     return (    
         <main id="main">
@@ -57,10 +74,14 @@ const Home: React.FC = () => {
                     <Card name="Tempo excedido" content="00:00"/>
                 </div>
                 <div className="button-panel">
-                    <BigButton backgroundColor="#0DBC50" onClick={() => addEnterCard()}>Entrada</BigButton>
-                    <BigButton backgroundColor="#F48037" onClick={() => {}}>Pausa</BigButton>
-                    <BigButton backgroundColor="#4842F3" onClick={() => {}}>Retorno</BigButton>
-                    <BigButton backgroundColor="#FF0000" onClick={() => {}}>Saída</BigButton>
+                    <BigButton backgroundColor="#0DBC50" disabled={hasEnterRecord()} 
+                        onClick={() => addEnterCard()}>Entrada</BigButton>
+                    <BigButton backgroundColor="#F48037"
+                        onClick={() => addPauseCard()}>Pausa</BigButton>
+                    <BigButton backgroundColor="#4842F3" 
+                        onClick={() => addReturnCard()}>Retorno</BigButton>
+                    <BigButton backgroundColor="#FF0000" 
+                        onClick={() => addExitCard()}>Saída</BigButton>
                 </div>
             </section>
             <section className="log-panel">
