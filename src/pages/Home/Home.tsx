@@ -3,38 +3,62 @@ import BigButton from "../../components/ui/BigButton/BigButton"
 import "./Home.css"
 import { TimeRecord } from "../../models/TimeRecord"
 import { useState } from "react"
-import { getFormattedCurrentTime } from "../../utils/Helpers"
-import { RecordType } from "../../constants/RecordType"
+import { convertSecondsToTime, convertTimeToString, getFormattedCurrentTime } from "../../utils/DateAndTimeHelpers"
+import { TimeRecordType } from "../../constants/TimeRecordType"
+import { useTime } from "../../hooks/useTime"
 
 const Home: React.FC = () => {
 
     const [timeRecords, setTimeRecords] = useState<TimeRecord[]>([]);
+    const { currentTime, workedTime, remainingTime } = useTime(1000, 3);
 
     const addCard = (type: string) => {
         const date = getFormattedCurrentTime();
         const newTimeRecord: TimeRecord = { type: type, date: date };
-
         setTimeRecords([...timeRecords, newTimeRecord]);
     }
 
-    const addEnterCard = () => {
-        addCard(RecordType.Entrada);
+    const addCheckInCard = () => {
+        addCard(TimeRecordType.CheckIn);
     }
 
-    const addPauseCard = () => {
-        addCard(RecordType.Pausa);
+    const addBreakCard = () => {
+        addCard(TimeRecordType.Break);
     }
 
-    const addReturnCard = () => {
-        addCard(RecordType.Retorno);
+    const addResumeCard = () => {
+        addCard(TimeRecordType.Resume);
     }
 
-    const addExitCard = () => {
-        addCard(RecordType.Saida);
+    const addCheckOutCard = () => {
+        addCard(TimeRecordType.CheckOut);
     }
 
-    const hasEnterRecord = () => {
-        return timeRecords.some((timeRecord) => timeRecord.type === RecordType.Entrada);
+    const canAddEnterRecord = () => {
+        return !timeRecords.some((timeRecord) => timeRecord.type === TimeRecordType.CheckIn);
+    }
+
+    const canAddPauseRecord = () => {
+        if(timeRecords.length === 0) {
+            return false;
+        }
+
+        const lastTimeRecord = timeRecords[timeRecords.length - 1];
+        return lastTimeRecord.type !== TimeRecordType.Break && lastTimeRecord.type !== TimeRecordType.CheckOut;
+    }
+
+    const canAddReturnRecord = () => {
+        if(timeRecords.length === 0) {
+            return false;
+        }
+
+        const lastTimeRecord = timeRecords[timeRecords.length - 1];
+        return lastTimeRecord.type === TimeRecordType.Break;
+    }
+
+    const canAddExitRecord = () => {
+        return timeRecords.some((timeRecord) => timeRecord.type === TimeRecordType.CheckIn) &&
+            !timeRecords.some((timeRecord) => timeRecord.type === TimeRecordType.CheckOut);
     }
 
     const showTimeRecords = () => {
@@ -68,20 +92,21 @@ const Home: React.FC = () => {
     return (    
         <main id="main">
             <section className="group-panel">
+                <p className="current-time-panel">{ convertTimeToString(currentTime) }</p>
                 <div className="info-panel">
-                    <Card name="Tempo trabalhado" content="00:00"/>
-                    <Card name="Tempo restante" content="00:00"/>
+                    <Card name="Tempo trabalhado" content={ convertSecondsToTime(workedTime) }/>
+                    <Card name="Tempo restante" content={ convertSecondsToTime(remainingTime) }/>
                     <Card name="Tempo excedido" content="00:00"/>
                 </div>
                 <div className="button-panel">
-                    <BigButton backgroundColor="#0DBC50" disabled={hasEnterRecord()} 
-                        onClick={() => addEnterCard()}>Entrada</BigButton>
-                    <BigButton backgroundColor="#F48037"
-                        onClick={() => addPauseCard()}>Pausa</BigButton>
-                    <BigButton backgroundColor="#4842F3" 
-                        onClick={() => addReturnCard()}>Retorno</BigButton>
-                    <BigButton backgroundColor="#FF0000" 
-                        onClick={() => addExitCard()}>Saída</BigButton>
+                    <BigButton backgroundColor="#0DBC50" disabled={!canAddEnterRecord()} 
+                        onClick={() => addCheckInCard()}>Entrada</BigButton>
+                    <BigButton backgroundColor="#F48037" disabled={!canAddPauseRecord()}
+                        onClick={() => addBreakCard()}>Pausa</BigButton>
+                    <BigButton backgroundColor="#4842F3" disabled={!canAddReturnRecord()}
+                        onClick={() => addResumeCard()}>Retorno</BigButton>
+                    <BigButton backgroundColor="#FF0000" disabled={!canAddExitRecord()}
+                        onClick={() => addCheckOutCard()}>Saída</BigButton>
                 </div>
             </section>
             <section className="log-panel">
