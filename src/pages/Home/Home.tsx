@@ -12,7 +12,7 @@ import { TimeRecordRequest } from "../../models/TimeRecordRequest"
 const Home: React.FC = () => {
 
     const [timeRecords, setTimeRecords] = useState<TimeRecordResponse[]>([]);
-    const { currentTime, workedTime, remainingTime } = useTime(1000, 3);
+    const { currentTime, workedTime, remainingTime, exceededTime, updateTimes } = useTime(0, 0, 0);
     const [workDayId, setWorkDayId] = useState<number | null>(0);
 
     useEffect(() => {
@@ -20,6 +20,7 @@ const Home: React.FC = () => {
             const report = await getWorkDayFromUser();
             setWorkDayId(report.id);
             setTimeRecords(report.timeRecords);
+            updateTimes(report.workedTime, report.remainingTime, report.exceededTime);
         }
         
         fetchReport();
@@ -29,7 +30,12 @@ const Home: React.FC = () => {
         const timestamp = getFormattedCurrentTime();
         if(workDayId === null) return;
         let newTimeRecord: TimeRecordRequest = { workDayId, type, timestamp };
-        postTimeRecord(newTimeRecord);
+        postTimeRecord(newTimeRecord).then((_) => {
+            getWorkDayFromUser().then((report) => {
+                setTimeRecords(report.timeRecords);
+                updateTimes(report.workedTime, report.remainingTime, report.exceededTime);
+            })
+        });
 
         setTimeRecords([...timeRecords, newTimeRecord]);
     }
@@ -113,11 +119,18 @@ const Home: React.FC = () => {
     return (    
         <main id="main">
             <section className="group-panel">
-                <p className="current-time-panel">{ convertTimeToString(currentTime) }</p>
+                <div className="time-panel">
+                    <p className="workday-status"
+                        style={{ color: exceededTime > 0 ? "#0DBC50" : "#FF0000" }}
+                    >
+                        { exceededTime > 0 ? "Dia completo" : "Dia incompleto" }
+                    </p>
+                    <p className="time-display">{ convertTimeToString(currentTime) }</p>
+                </div>
                 <div className="info-panel">
                     <Card name="Tempo trabalhado" content={ convertSecondsToTime(workedTime) }/>
                     <Card name="Tempo restante" content={ convertSecondsToTime(remainingTime) }/>
-                    <Card name="Tempo excedido" content="00:00"/>
+                    <Card name="Tempo excedido" content={ convertSecondsToTime(exceededTime) }/>
                 </div>
                 <div className="button-panel">
                     <BigButton backgroundColor="#0DBC50" disabled={!canAddEnterRecord()} 

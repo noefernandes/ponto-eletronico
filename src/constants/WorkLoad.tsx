@@ -1,0 +1,5 @@
+export enum WorkLoad {
+    SIXHOURS = "SIXHOURS",
+    EIGHTHOURS = "EIGHTHOURS",
+    TESTWORKLOAD = "TESTWORKLOAD"
+}

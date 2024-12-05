@@ -40,14 +40,15 @@ const Login = () => {
     return (
         <main className="container">
             <section className="login-card">
-                <h1 id="title">Sistema de Ponto Eletrônico</h1>
+                <h1 id="login-title">Sistema de Ponto Eletrônico</h1>
                 <form className="auth-form" onSubmit={onSubmit}>
                     <div className="subtitle">
                         <h2>Realize seu Login</h2>
                         <p className="error-message">{errorMessage}</p>
                     </div>
                     <div className="input-group">
-                        <input type="text" 
+                        <input className="input-field"
+                               type="text" 
                                name="username" 
                                id="username" 
                                placeholder="Nome de Usuário" 
@@ -55,7 +56,7 @@ const Login = () => {
                         />
                     </div>
                     <div className="input-group">
-                        <input 
+                        <input className="input-field"
                             type="password" 
                             name="password" 
                             id="password" 
@@ -63,7 +64,6 @@ const Login = () => {
                             onChange={(e) => setPassword(e.target.value)}/>
                     </div>
                     <Button
-                        onClick={() => {}}
                         backgroundColor="#0DBC50"
                         margin="20px 0 0 0"
                         type="submit"

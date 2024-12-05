@@ -3,9 +3,10 @@
     width: 100%;
     background-color: #262626;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: space-between;
-    padding: 0px 20px;
+    padding: 5px 20px;
 }
 
 #site-title {
@@ -15,8 +16,16 @@
     text-shadow: #FFFFFF 1px 1px 1px;
 }
 
+.header-nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
 @media screen and (max-width: 600px) {
-    #title {
+    #site-title {
         font-size: 20px;
     }
 }

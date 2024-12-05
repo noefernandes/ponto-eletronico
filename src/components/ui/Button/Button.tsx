@@ -6,7 +6,8 @@ interface ButtonProps {
     onClick?: () => void
     backgroundColor?: string
     type: 'button' | 'submit' | 'reset'
-    margin?: string
+    margin?: string,
+    display?: string
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -14,14 +15,15 @@ const Button: React.FC<ButtonProps> = ({
     onClick,
     backgroundColor,
     type,
-    margin
+    margin,
+    display
 }) => {
     return ( 
         <button
             className="button"
             onClick={onClick}
             type={ type }
-            style={{ backgroundColor, margin }}
+            style={{ backgroundColor, margin, display }}
         >
             {children}
         </button>   
