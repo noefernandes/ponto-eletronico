@@ -14,7 +14,7 @@ const Header: React.FC = () => {
             <nav className="header-nav">
                 <Button onClick={() => setOpen(!open)} 
                         type="button" 
-                        display={user.role === "ADMIN" ? "block" : "none"}>
+                        display={user && user.role === "ADMIN" ? "block" : "none"}>
                         Novo usuário
                 </Button>
                 <Button onClick={() =>  logout()} type="button">Sair</Button>
