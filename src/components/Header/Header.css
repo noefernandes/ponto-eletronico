@@ -8,13 +8,15 @@
     padding: 0px 20px;
 }
 
-#title {
+#site-title {
     color: #FFFFFF;
     font-size: 30px;
     font-weight: bold;
     text-shadow: #FFFFFF 1px 1px 1px;
+}
 
-    @media screen and (max-width: 600px) {
+@media screen and (max-width: 600px) {
+    #title {
         font-size: 20px;
     }
 }

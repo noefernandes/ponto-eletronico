@@ -1,20 +1,36 @@
 import Card from "../../components/Card/Card"
 import BigButton from "../../components/ui/BigButton/BigButton"
 import "./Home.css"
-import { TimeRecord } from "../../models/TimeRecord"
-import { useState } from "react"
-import { convertSecondsToTime, convertTimeToString, getFormattedCurrentTime } from "../../utils/DateAndTimeHelpers"
+import { TimeRecordResponse } from "../../models/TimeRecordResponse"
+import { useEffect, useState } from "react"
+import { convertSecondsToTime, convertTimeToString, getFormattedCurrentTime } from "../../utils/helpers"
 import { TimeRecordType } from "../../constants/TimeRecordType"
 import { useTime } from "../../hooks/useTime"
+import { getWorkDayFromUser, postTimeRecord } from "../../services/user-service"
+import { TimeRecordRequest } from "../../models/TimeRecordRequest"
 
 const Home: React.FC = () => {
 
-    const [timeRecords, setTimeRecords] = useState<TimeRecord[]>([]);
+    const [timeRecords, setTimeRecords] = useState<TimeRecordResponse[]>([]);
     const { currentTime, workedTime, remainingTime } = useTime(1000, 3);
+    const [workDayId, setWorkDayId] = useState<number | null>(0);
+
+    useEffect(() => {
+        const fetchReport = async () => {
+            const report = await getWorkDayFromUser();
+            setWorkDayId(report.id);
+            setTimeRecords(report.timeRecords);
+        }
+        
+        fetchReport();
+    }, [])
 
     const addCard = (type: string) => {
-        const date = getFormattedCurrentTime();
-        const newTimeRecord: TimeRecord = { type: type, date: date };
+        const timestamp = getFormattedCurrentTime();
+        if(workDayId === null) return;
+        let newTimeRecord: TimeRecordRequest = { workDayId, type, timestamp };
+        postTimeRecord(newTimeRecord);
+
         setTimeRecords([...timeRecords, newTimeRecord]);
     }
 
@@ -64,17 +80,22 @@ const Home: React.FC = () => {
     const showTimeRecords = () => {
         return timeRecords.map((timeRecord, index) => {
             let color = null;
+            let name = null;
             switch (timeRecord.type) {
-                case 'entrada':
+                case TimeRecordType.CheckIn:
+                    name = 'Entrada';
                     color = '#0DBC50';
                     break;
-                case 'pausa':
+                case TimeRecordType.Break:
+                    name = 'Pausa';
                     color = '#F48037';
                     break;
-                case 'retorno':
+                case TimeRecordType.Resume:
+                    name = 'Retorno';
                     color = '#4842F3';
                     break;
-                case 'saida':
+                case TimeRecordType.CheckOut:
+                    name = 'Saída';
                     color = '#FF0000';
                     break;
                 default:
@@ -82,7 +103,7 @@ const Home: React.FC = () => {
             }
 
             return (
-                <Card key={index} name={timeRecord.type} content={timeRecord.date} 
+                <Card key={index} name={name} content={timeRecord.timestamp} 
                       backgroundColor={color} border="1px solid #262626"/>
             )
         }

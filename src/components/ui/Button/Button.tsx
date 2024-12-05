@@ -3,18 +3,25 @@ import "./Button.css"
 
 interface ButtonProps {
     children: React.ReactNode
-    onClick: () => void
+    onClick?: () => void
+    backgroundColor?: string
+    type: 'button' | 'submit' | 'reset'
+    margin?: string
 }
 
 const Button: React.FC<ButtonProps> = ({
     children,
-    onClick 
+    onClick,
+    backgroundColor,
+    type,
+    margin
 }) => {
     return ( 
         <button
             className="button"
-            type="button"
-            onClick = {onClick}
+            onClick={onClick}
+            type={ type }
+            style={{ backgroundColor, margin }}
         >
             {children}
         </button>   

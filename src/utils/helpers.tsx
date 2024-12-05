@@ -1,5 +1,9 @@
 export function getFormattedCurrentTime(){
-    return new Date().toLocaleTimeString('pt-BR', {timeZone: 'America/Sao_Paulo'});
+    const now = new Date();
+    let formattedDate = now.toLocaleDateString('pt-BR', {timeZone: 'America/Sao_Paulo'});
+    formattedDate = formattedDate = formattedDate.replace(/\//g, '-');
+    const formattedTime = now.toLocaleTimeString('pt-BR', {timeZone: 'America/Sao_Paulo'});
+    return `${formattedDate} ${formattedTime}`
 }
 
 export function convertTimeToString(date: Date) {

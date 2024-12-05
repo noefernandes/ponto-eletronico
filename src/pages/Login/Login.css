@@ -1,0 +1,69 @@
+.container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #262626;
+}
+.login-card {
+    height: 500px;
+    width: 300px;
+    padding: 0 20px;
+    background-color: black;
+    border-radius: 12px;
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    display: grid;
+    grid-template-rows: repeat(3, 1fr);
+}
+
+.auth-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.input-group:first-child {
+    margin-top: 20px;
+}
+
+.input-group {
+    margin-top: 20px;
+}
+
+input {
+    width: 100%;
+    height: 36px;
+    padding-left: 14px;
+    background-color: #262626;
+    border: 1px solid gray;
+    color: #FFFFFF;
+    border-radius: 6px;
+}
+
+#title {
+    margin-top: 60px;
+    text-align: center;
+    color: "#FFFFFF"
+}
+
+.subtitle {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 50px;
+    color: #0DBC50;
+}
+
+.error-message {
+    text-align: center;
+    color: red;
+}
+
+@media screen and (min-width: 768px) {
+    .login-card {
+        height: 650px;
+        width: 450px;
+    }
+}

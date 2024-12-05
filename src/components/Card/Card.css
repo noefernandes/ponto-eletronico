@@ -14,9 +14,11 @@
 
 .card p {
     bottom: 0;
-    font-size: 32px;
+    font-size: 20px;
 }
 
 @media screen and (max-width: 720px) {
-    
+    .card p {
+        font-size: 14px;
+    }
 }

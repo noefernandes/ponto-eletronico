@@ -1,6 +1,6 @@
 export enum TimeRecordType {
-    CheckIn = 'entrada',
-    Break = 'pausa',
-    Resume = 'retorno',
-    CheckOut = 'saida'
+    CheckIn = 'CHECKIN',
+    Break = 'BREAK',
+    Resume = 'RESUME',
+    CheckOut = 'CHECKOUT'
 }
