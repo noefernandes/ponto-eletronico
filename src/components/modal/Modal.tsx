@@ -1,7 +1,6 @@
 import "./Modal.css";
 import { WorkLoad } from "../../constants/WorkLoad";
 import { FormEvent, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import Button from "../ui/Button/Button";
 import { axiosInstance } from "../../services/connections/axios-connection";
 import { toast } from "react-toastify";
@@ -28,7 +27,6 @@ const permissions = [
 ];
 
 export const Modal = ({ isOpen, closeModal }: ModalProps) => {
-    const navigate = useNavigate();
 
     const [name, setName] = useState<string>("");
     const [username, setUsername] = useState<string>("");
@@ -51,7 +49,7 @@ export const Modal = ({ isOpen, closeModal }: ModalProps) => {
         };
 
         try {
-            const response = await axiosInstance.post("users", user);
+            await axiosInstance.post("users", user);
             closeModal();
             notify();
         } catch (error) {
