@@ -1,5 +1,3 @@
-import { redirect } from "react-router-dom";
-
 export const storeUserInfo = (user: any) => {
     localStorage.setItem("user", JSON.stringify(user));
 }
