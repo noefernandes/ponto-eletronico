@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
+import { HashRouter, Route, Routes } from 'react-router-dom'
 import './App.css'
 import Header from './components/Header/Header'
 import Home from './pages/Home/Home'
@@ -10,7 +10,7 @@ import { ProtectedRoutes } from './auth/ProtectedRoutes'
 function App() {
 
 	return (
-		<BrowserRouter>
+		<HashRouter>
 			<Routes>
 				<Route path="/login" element={<Login />}/>
 				<Route element={<ProtectedRoutes />}>
@@ -23,7 +23,7 @@ function App() {
 				</Route>
 			</Routes>
 			<ToastContainer />
-		</BrowserRouter>
+		</HashRouter>
 	)
 }
 
