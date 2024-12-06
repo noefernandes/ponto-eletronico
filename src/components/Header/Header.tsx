@@ -1,11 +1,18 @@
 import { useState } from "react";
-import { getUserInfo, logout } from "../../services/auth-service"
+import { getUserInfo } from "../../services/auth-service"
 import Button from "../ui/Button/Button"
 import "./Header.css"
 import { Modal } from "../modal/Modal";
+import { useNavigate } from "react-router-dom";
 
 const Header: React.FC = () => {
     const [open, setOpen] = useState(false);
+    const redirect = useNavigate();
+
+    const logout = () => {
+        localStorage.removeItem("user");
+        redirect("/login");
+    }
 
     const user = getUserInfo();
     return (
