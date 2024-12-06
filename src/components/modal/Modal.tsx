@@ -60,10 +60,13 @@ export const Modal = ({ isOpen, closeModal }: ModalProps) => {
     return isOpen ? (
         <div className="background">
             <div className="modal">
-                <h2 className="modal-title">Novo Usuário</h2>
+                <div className="modal-header">
+                    <h2 className="modal-title">Novo Usuário</h2>
+                    <a className="modal-close-button" onClick={closeModal}>x</a>
+                </div>
                 <form className="modal-form" onSubmit={onSubmit}>
                     <input
-                        className="input-field"
+                        className="input-field-modal"
                         type="text"
                         name="name"
                         placeholder="Nome"
@@ -72,7 +75,7 @@ export const Modal = ({ isOpen, closeModal }: ModalProps) => {
                         onChange={(e) => setName(e.target.value)}
                     />
                     <input
-                        className="input-field"
+                        className="input-field-modal"
                         type="text"
                         name="username"
                         placeholder="Username"
@@ -81,7 +84,7 @@ export const Modal = ({ isOpen, closeModal }: ModalProps) => {
                         onChange={(e) => setUsername(e.target.value)}
                     />
                     <input
-                        className="input-field"
+                        className="input-field-modal"
                         type="password"
                         name="password"
                         placeholder="Password"
@@ -95,6 +98,7 @@ export const Modal = ({ isOpen, closeModal }: ModalProps) => {
                             {workloads.map((item) => (
                                 <label key={item.value} className="radio-label">
                                     <input
+                                        className="input-radio-modal"
                                         type="radio"
                                         name="workload"
                                         value={item.value}
@@ -112,6 +116,7 @@ export const Modal = ({ isOpen, closeModal }: ModalProps) => {
                             {permissions.map((item) => (
                                 <label key={item.value} className="radio-label">
                                     <input
+                                        className="input-radio-modal"
                                         type="radio"
                                         name="permission"
                                         value={item.value}
