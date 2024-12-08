@@ -13,6 +13,7 @@ export const getWorkDayFromUser = async () => {
     try {
         const response = await axiosInstance.get(`workday/${userData.id}/report`);
         const report = response.data;
+        console.log("entra1");
         return report;
     } catch (error) {
         const response = await axiosInstance.post('workday', {
@@ -20,6 +21,7 @@ export const getWorkDayFromUser = async () => {
             timestamp: getFormattedCurrentTime()
         });
         const report = response.data;
+        console.log("entra2");
         return report;
     }
 }

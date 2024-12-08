@@ -69,7 +69,7 @@ export const Modal = ({ isOpen, closeModal }: ModalProps) => {
                         className="input-field-modal"
                         type="text"
                         name="name"
-                        placeholder="Nome"
+                        placeholder="Nome completo"
                         value={name}
                         required
                         onChange={(e) => setName(e.target.value)}
@@ -78,7 +78,7 @@ export const Modal = ({ isOpen, closeModal }: ModalProps) => {
                         className="input-field-modal"
                         type="text"
                         name="username"
-                        placeholder="Username"
+                        placeholder="Nome de usuário"
                         value={username}
                         required
                         onChange={(e) => setUsername(e.target.value)}
@@ -87,7 +87,7 @@ export const Modal = ({ isOpen, closeModal }: ModalProps) => {
                         className="input-field-modal"
                         type="password"
                         name="password"
-                        placeholder="Password"
+                        placeholder="Senha"
                         value={selectedPassword}
                         required
                         onChange={(e) => setSelectedPassword(e.target.value)}

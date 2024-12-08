@@ -6,8 +6,10 @@ import { useEffect, useState } from "react"
 import { convertSecondsToTime, convertTimeToString, getFormattedCurrentTime } from "../../utils/helpers"
 import { TimeRecordType } from "../../constants/TimeRecordType"
 import { useTime } from "../../hooks/useTime"
-import { getWorkDayFromUser, postTimeRecord } from "../../services/user-service"
+import { getWorkDayFromUser, postTimeRecord } from "../../services/workday-service"
 import { TimeRecordRequest } from "../../models/TimeRecordRequest"
+import { getUserInfo } from "../../services/auth-service"
+import { WorkLoad } from "../../constants/WorkLoad"
 
 const Home: React.FC = () => {
 
@@ -26,7 +28,7 @@ const Home: React.FC = () => {
         fetchReport();
     }, [])
 
-    const addCard = (type: string) => {
+    const addCard = async (type: string) => {
         const timestamp = getFormattedCurrentTime();
         if(workDayId === null) return;
         let newTimeRecord: TimeRecordRequest = { workDayId, type, timestamp };
@@ -65,12 +67,24 @@ const Home: React.FC = () => {
             return false;
         }
 
+        const user = getUserInfo();
+
+        if(user.workLoad === WorkLoad.SIXHOURS) {
+            return false;
+        }
+
         const lastTimeRecord = timeRecords[timeRecords.length - 1];
         return lastTimeRecord.type !== TimeRecordType.Break && lastTimeRecord.type !== TimeRecordType.CheckOut;
     }
 
     const canAddReturnRecord = () => {
         if(timeRecords.length === 0) {
+            return false;
+        }
+
+        const user = getUserInfo();
+
+        if(user.workLoad === WorkLoad.SIXHOURS) {
             return false;
         }
 
